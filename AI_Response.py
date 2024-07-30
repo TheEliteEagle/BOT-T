@@ -21,7 +21,10 @@ api_key = ""
 if os.path.exists('api.txt'):
     with open('api.txt', 'r') as file:
         api_key = file.read().strip()
-#check user has replaced, exit if still default
+else: #create file if first time running 
+    with open('api.txt', 'w') as file:
+        pass
+#check user has replaced inside of file, exit if still default
 if api_key == "" or api_key == "add your API key here":
     print("please open api.txt and enter your API key")
     sys.exit()
