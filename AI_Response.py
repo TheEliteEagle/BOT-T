@@ -6,9 +6,9 @@ import google.generativeai as genai # type: ignore
 #-------------------------------------------------------------------------
 # function to get response from API
 
-def getResponse(newText, API, history=[]):
+def getResponse(newText, history=[]):
 
-    genai.configure(api_key= API)
+    genai.configure(api_key= getAPIkey())
 
     settings = { #model settings
     "temperature": 0.9,
@@ -26,26 +26,29 @@ def getResponse(newText, API, history=[]):
 
 
 #------------------------------------------------------------------------
-# main
+# get API key function
 
-#read API key from file
-api_key = ""
-if os.path.exists('api.txt'):
-    with open('api.txt', 'r') as file:
-        api_key = file.read().strip()
-else: #create file if first time running 
-    with open('api.txt', 'w') as file:
-        pass
-#check user has replaced inside of file, exit if still default
-if api_key == "" or api_key == "add your API key here":
-    print("please open api.txt and enter your API key")
-    sys.exit()
+def getAPIkey():
+    #read API key from file
+    api_key = ""
+    if os.path.exists('api.txt'):
+        with open('api.txt', 'r') as file:
+            api_key = file.read().strip()
+    else: #create file if first time running 
+        with open('api.txt', 'w') as file:
+            pass
+    #check user has replaced inside of file, exit if still default
+    if api_key == "" or api_key == "add your API key here":
+        print("please open api.txt and enter your API key")
+        sys.exit()
+    return api_key
 
-# TODO get user input
-input = "Hello Bob"
 
-# pass key and user input into response function
-response = getResponse(input, api_key)
+#===============================================================================================================
+# MAIN
+#===============================================================================================================
 
-# return new string
+
+# make an example request with no history
+response = getResponse("Hello Bob")
 sys.exit(response['text'])
