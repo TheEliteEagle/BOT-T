@@ -6,17 +6,29 @@ import google.generativeai as genai # type: ignore
 #-------------------------------------------------------------------------
 # function to get response from API
 
-def getResponse(newText, API):
+def getResponse(newText, API, history=[]):
 
-    return newText #replace later
+    genai.configure(api_key= API)
 
+    settings = { #model settings
+    "temperature": 0.9,
+    "top_p": 1,
+    "top_k": 1,
+    "max_output_tokens": 150,
+    }
 
+    model = genai.GenerativeModel(model_name= "gemini-1.0-pro", generation_config= settings, safety_settings=[])
+    
+    chat = model.start_chat(history = history)
+    chat.send_message(newText)
+
+    return {'text':chat.last.text, 'history':chat.history}
 
 
 #------------------------------------------------------------------------
 # main
 
-#read API from file
+#read API key from file
 api_key = ""
 if os.path.exists('api.txt'):
     with open('api.txt', 'r') as file:
@@ -30,8 +42,10 @@ if api_key == "" or api_key == "add your API key here":
     sys.exit()
 
 # TODO get user input
+input = "Hello Bob"
 
-# TODO pass both into response function
-getResponse("Tmp", api_key)
+# pass key and user input into response function
+response = getResponse(input, api_key)
 
-# TODO return new string
+# return new string
+sys.exit(response['text'])
