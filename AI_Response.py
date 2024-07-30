@@ -1,5 +1,6 @@
 # install needed google API with: pip install google-generativeai
 import sys
+import os
 import google.generativeai as genai # type: ignore
 
 #-------------------------------------------------------------------------
@@ -15,11 +16,19 @@ def getResponse(newText, API):
 #------------------------------------------------------------------------
 # main
 
-# TODO read API from file
+#read API from file
+api_key = ""
+if os.path.exists('api.txt'):
+    with open('api.txt', 'r') as file:
+        api_key = file.read().strip()
+#check user has replaced, exit if still default
+if api_key == "" or api_key == "add your API key here":
+    print("please open api.txt and enter your API key")
+    sys.exit()
 
 # TODO get user input
 
 # TODO pass both into response function
-getResponse("Tmp", "Tmp2")
+getResponse("Tmp", api_key)
 
 # TODO return new string
