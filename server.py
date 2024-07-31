@@ -4,14 +4,20 @@ import AI_Response
 
 app = Flask(__name__)
 
+history = [] #probably a better way to store than globally? May copy across tabs..
+
 @app.route('/')
 def initialise():
+    global history
     response = AI_Response.getResponse("In two sentances or less, introduce yourself as  BOT-T, who will answer and questions about Max or his cv in plain text") #test basic ai response
+    history = response['history']
     return render_template('home.html', response=response['text'])
 
 @app.route('/', methods=['POST'])
 def respond():
-    response = AI_Response.getResponse(request.form['input']) #answer user question
+    global history
+    response = AI_Response.getResponse(request.form['input'], history) #answer user question
+    history = response['history']
     return render_template('home.html', response=response['text'])
 
 if __name__ == '__main__':
