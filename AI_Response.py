@@ -48,16 +48,16 @@ def getAPIkey():
 # MAIN      usage: <text input (optional)> <history (optional)>
 #===============================================================================================================
 
+if __name__ == '__main__':
+    if len(sys.argv) == 2:
+        # make example request using only user text
+        response = getResponse(sys.argv[1])    
+    elif len(sys.argv) == 3:
+        # make example request using user text and user history
+        response = getResponse(sys.argv[1],sys.argv[2]) 
+    else:
+        # make an example request using default text and history as no command line input
+        response = getResponse("count from 1 to 10")
+        response = getResponse("what did i just ask you to do", response['history'])
 
-if len(sys.argv) == 2:
-    # make example request using only user text
-    response = getResponse(sys.argv[1])    
-elif len(sys.argv) == 3:
-    # make example request using user text and user history
-    response = getResponse(sys.argv[1],sys.argv[2]) 
-else:
-    # make an example request using default text and history as no command line input
-    response = getResponse("count from 1 to 10")
-    response = getResponse("what did i just ask you to do", response['history'])
-
-sys.exit(response['text'])    
+    sys.exit(response['text'])    
