@@ -7,10 +7,33 @@
 
 <body>
 
-    <p> {{ response }} </p>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#inputField').on('submit', function(event) {
+                event.preventDefault();
+                var formData = $(this).serialize(); 
+                $('#inputBox').val('');
+                $('#response').text('....');
+                $.ajax({
+                    type: 'POST',
+                    url:'/', 
+                    data: formData,
+                    success: function(data) {
+                        $('#response').text(data.response);
+                    },
+                    error: function() {
+                        $('#response').text("ERROR LOADING AI RESPONSE");    
+                    }
+                });
+            });
+        });
+    </script>
 
-    <form method = "post" autocomplete="off">
-        <input type="text" name="input" style="width: 300px; height: 25px;" />
+    <p> <div id = "response"> {{ response }} </div> </p>
+
+    <form method = "post" autocomplete="off" id="inputField">
+        <input type="text" name="input" style="width: 300px; height: 25px;" id="inputBox"/>
     </form>
 
 </body>
