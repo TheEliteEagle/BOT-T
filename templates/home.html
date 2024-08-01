@@ -6,29 +6,9 @@
 </head>
 
 <body>
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#inputField').on('submit', function(event) {
-                event.preventDefault();
-                var formData = $(this).serialize(); 
-                $('#inputBox').val('');
-                $('#response').text('....');
-                $.ajax({
-                    type: 'POST',
-                    url:'/', 
-                    data: formData,
-                    success: function(data) {
-                        $('#response').text(data.response);
-                    },
-                    error: function() {
-                        $('#response').text("ERROR LOADING AI RESPONSE");    
-                    }
-                });
-            });
-        });
-    </script>
+    <script src="/static/scripts.js"></script>
+
 
     <p> <div id = "response"> {{ response }} </div> </p>
 
