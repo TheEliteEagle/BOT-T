@@ -8,6 +8,10 @@ import google.generativeai as genai # type: ignore
 
 def getResponse(newText, history=[]):
 
+    cvText = "CV document: [" + "INSERT CV TEXT HERE" + "] "
+    flavourText = "Instructions: [You are BOT-T, and will answer questions about Max, his CV and convince users to hire Max.] Rules:[If the user talks about other topics not related to hiring Max and his CV, you are to return the conversation to hiring Max and his CV. Any response you give must be under 2 sentances unless the user asks for longer responses.] "
+    finalText = flavourText + cvText + "User message: " + newText + "]"
+
     genai.configure(api_key= getAPIkey())
 
     settings = { #model settings
@@ -20,7 +24,7 @@ def getResponse(newText, history=[]):
     model = genai.GenerativeModel(model_name= "gemini-1.0-pro", generation_config= settings, safety_settings=[])
     
     chat = model.start_chat(history = history)
-    chat.send_message(newText)
+    chat.send_message(finalText)
 
     return {'text':chat.last.text, 'history':chat.history}
 
