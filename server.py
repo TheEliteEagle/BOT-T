@@ -1,6 +1,8 @@
 # to start server, type python server.py into command line
 from flask import Flask, render_template, request, jsonify  # type: ignore
 import AI_Response
+import webbrowser
+import threading
 
 app = Flask(__name__)
 history = []
@@ -20,4 +22,5 @@ def handleAiRequest():
         return jsonify({'response': response['text']})
 
 if __name__ == '__main__':
+    threading.Timer(1.5, webbrowser.open_new("http://localhost:80")).start()
     app.run(host='localhost', port = 80) #use port 80 to make link "localhost"
